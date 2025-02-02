@@ -9,3 +9,11 @@
 - Käyttäjä pystyy valitsemaan levylle yhden tai useamman luokittelun (esim. median tyyppi (vinyyli, cd), musiikkigenre, levyn kunto, hintatiedot).
 - Käyttäjä pystyy tekemään muistiinpanoja ym. levyistä.
 - Käyttäjä voi jakaa musikkikirjaston. 
+
+# Välipalautus 2 
+- tunnuksen luominen onnistuu
+- kirjautuminen onnistuu
+- tietokannassa kokoelmat ja julkaisut
+- kokoelman lisääminen ei toimi vielä
+- levun lisääminen ei toimi vielä
+

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>{{ collection.title }}</title>
+</head>
+
+<body>
+  <h1>{{ collection.title }}</h1>
+
+  <hr />
+  {% for release in releases %}
+  <p>
+    {{ release.username }} ({{ release.sent_at }}):
+  </p>
+  <p>
+    {{ release.artist }}
+  </p>
+  <p>
+    {{ release.title }}
+  </p>
+  {% if release.user_id == session.user_id %}
+  <p>
+    <a href="/edit/{{ release.id }}">Muokkaa</a> |
+    <a href="/remove/{{ release.id }}">Poista</a>
+  </p>
+  {% endif %}
+  <hr />
+  {% endfor %}
+
+  {% if session.user_id %}
+  <h2>Uusi viesti</h2>
+
+  <form action="/new_release" method="post">
+    <p>
+      Artisti:<br />
+      <textarea name="artist" rows="5" cols="40"></textarea>
+    </p>
+    <p>
+      Title:<br />
+      <textarea name="title" rows="5" cols="40"></textarea>
+    </p>
+    <input type="hidden" name="collection_id" value="{{ collection.id }}" />
+    <input type="submit" value="Lähetä" />
+  </form>
+  <hr />
+  {% endif %}
+
+  <p>
+    <a href="/">Etusivulle</a>
+  </p>
+</body>
+
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Julkaisun muokkaus</title>
+</head>
+
+<body>
+  <h1>Julkaisun muokkaus</h1>
+
+  <form action="/edit/{{ release.id }}" method="post">
+    <p>
+      Artisti:<br />
+      <textarea name="artist" rows="5" cols="40">{{ release.artist }}</textarea>
+    </p>
+    <p>
+      Julkaisun nimi:<br />
+      <textarea name="artist" rows="5" cols="40">{{ release.title }}</textarea>
+    </p>
+    <input type="submit" value="Lähetä" />
+  </form>
+</body>
+
+</html>

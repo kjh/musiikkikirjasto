@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Musiikkikirjasto</title>
+</head>
+
+<body>
+  <h1>Musiikkikirjasto</h1>
+
+  <p>
+    <a href="/register">Luo tunnus</a> |
+    {% if session.user_id %}
+    <a href="/logout">Kirjaudu ulos</a>
+    {% else %}
+    <a href="/login">Kirjaudu sisään</a>
+    {% endif %}
+  </p>
+
+  <hr />
+  {% for collection in collections %}
+  <p>
+    <a href="/collection/{{ collection.id }}">{{ collection.title }}</a>
+    <br />
+    {{ collection.total }} julkaisua, uusin {{ collections.last }}
+  </p>
+  <hr />
+  {% endfor %}
+
+  {% if session.user_id %}
+  <h2>Uusi kokoelma</h2>
+
+  <form action="/new_collection" method="post">
+    <p>
+      Kokoelman nimi:<br />
+      <input type="text" name="title" />
+    </p>
+    <p>
+      Artisti:<br />
+      <textarea name="artist" rows="5" cols="40"></textarea>
+    </p>
+    <p>
+      Julkaisun nimi:<br />
+      <textarea name="title" rows="5" cols="40"></textarea>
+    </p>
+    <input type="submit" value="Lähetä" />
+  </form>
+  {% endif %}
+</body>
+
+</html>
