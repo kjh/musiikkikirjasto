@@ -27,3 +27,5 @@
 - Lomakkeen kenttien arvojen tarkistus esim. yli 100 pitkä artistin nimi hylätään.
 - Lomakkeet käyttävät text input kenttiä ja oletuskoko 40 merkkiä.
 - Lomakkeiden kentät ovat pakollisia.
+- Hakutoiminto lisätty. Listaa kokoelmat jotka sisältävät haetun artistin tai levyn nimen.
+

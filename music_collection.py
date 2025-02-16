@@ -1,5 +1,18 @@
 import db
 
+def search(query):
+    sql = """SELECT r.id release_id,
+                    r.collection_id,
+                    c.title collection_title,
+                    r.sent_at,
+                    u.username
+             FROM collections c, releases r, users u
+             WHERE c.id = r.collection_id AND
+                   u.id = r.user_id AND
+                   (r.artist LIKE ? OR r.title LIKE ?)
+             ORDER BY r.sent_at DESC"""
+    return db.query(sql, ["%" + query + "%", "%" + query + "%"])
+
 def get_collections():
     sql = """SELECT c.id, c.title, COUNT(r.id) total, MAX(r.sent_at) last
              FROM collections c, releases r

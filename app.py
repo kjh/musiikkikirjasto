@@ -6,6 +6,12 @@ import config, music_collection, users, helper
 app = Flask(__name__)
 app.secret_key = config.secret_key
 
+@app.route("/search")
+def search():
+    query = request.args.get("query")
+    results = music_collection.search(query) if query else []
+    return render_template("search.html", query=query, results=results)
+
 @app.route("/")
 def index():
     collections = music_collection.get_collections()

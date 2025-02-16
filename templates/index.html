@@ -18,6 +18,20 @@
   </p>
 
   <hr />
+
+  <form action="/search" method="get">
+    <p>
+      Hakusana:
+      {% if query %}
+      <input type="text" name="query" value="{{ query }}" />
+      {% else %}
+      <input type="text" name="query" />
+      {% endif %}
+    </p>
+    <input type="submit" value="Hae" />
+  </form>
+
+  <hr />
   {% for collection in collections %}
   <p>
     <a href="/collection/{{ collection.id }}">{{ collection.title }}</a>
