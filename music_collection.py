@@ -1,5 +1,21 @@
 import db
 
+def get_user(user_id):
+    sql = "SELECT username FROM users WHERE id = ?"
+    result = db.query(sql, [user_id])
+    return result[0] if result else None
+
+def get_user_releases(user_id):
+    sql = """SELECT r.id,
+                    r.collection_id,
+                    c.title collection_title,
+                    r.sent_at
+             FROM collections c, releases r
+             WHERE c.id = r.collection_id AND
+                   r.user_id = ?
+             ORDER BY r.sent_at DESC"""
+    return db.query(sql, [user_id])
+
 def search(query):
     sql = """SELECT r.id release_id,
                     r.collection_id,

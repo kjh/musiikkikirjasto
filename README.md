@@ -28,4 +28,5 @@
 - Lomakkeet käyttävät text input kenttiä ja oletuskoko 40 merkkiä.
 - Lomakkeiden kentät ovat pakollisia.
 - Hakutoiminto lisätty. Listaa kokoelmat jotka sisältävät haetun artistin tai levyn nimen.
+- Käyttäjäsivut lisätty. Sivu näyttää käyttäjän nimen, julkaisujen määrän ja vanhimman ja uusimman lisätyn julkaisun päiväyksen ja kellonajan. 
 

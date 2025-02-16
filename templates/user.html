@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Käyttäjä</title>
+</head>
+
+<body>
+    <h1>Käyttäjä {{ user.username }}</h1>
+
+    <p>
+      Käyttäjä on lisännyt kokoelmiin {{ releases | count }} julkaisua
+    </p>
+  
+    {% if releases %}
+    <p>
+      Vanhin kokoelmiin lisätty julkaisu {{ releases[-1].sent_at }}
+    </p>
+    <p>
+      Uusin kokoelmiin lisätty julkaisu {{ releases[0].sent_at }}
+    </p>
+    {% endif %}
+</body>
+
+</html>
