@@ -15,5 +15,12 @@
 - kirjautuminen onnistuu
 - tietokannassa kokoelmat ja julkaisut
 - kokoelman lisääminen ei toimi vielä
-- levun lisääminen ei toimi vielä
+- levyn lisääminen ei toimi vielä
 
+# Välipalautus 3
+- Käyttäjän tunnuksen luominen ja kirjautuminen onnistuu.
+- Käyttäjä voi luoda kokoelman.
+- Kokoelman julkaisun voi lisätä/muokata/poistaa.
+- Tietyt toiminnot vaativat kirjatumisen. Tämä on toteutettu dekoraattorilla @helper.require_login.
+- Jos käyttäjä yrittää muokata/poistaa toisen kokoelmaan kuuluvia julkaisuja, se on estetty.
+- Virhetilanteiden käsittely, jos esim. kokoelmaa tai viestiä ei löydy tietokannasta.

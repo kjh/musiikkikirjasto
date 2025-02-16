@@ -1,7 +1,7 @@
 import sqlite3
-from flask import Flask
+from flask import Flask, abort
 from flask import redirect, render_template, request, session
-import config, music_collection, users
+import config, music_collection, users, helper
 
 app = Flask(__name__)
 app.secret_key = config.secret_key
@@ -14,32 +14,45 @@ def index():
 @app.route("/collection/<int:collection_id>")
 def show_collection(collection_id):
     collection = music_collection.get_collection(collection_id)
+    if not collection:
+        abort(404)
     releases = music_collection.get_releases(collection_id)
     return render_template("collection.html", collection=collection, releases=releases)
 
 @app.route("/new_collection", methods=["POST"])
+@helper.require_login
 def new_collection():
-    collection_title = request.form["title"]
-    artist = request.form["content"]
-    title = request.form["content"]
+    collection_title = request.form["collection_title"]
+    artist = request.form["artist"]
+    title = request.form["title"]
     user_id = session["user_id"]
 
     collection_id = music_collection.add_collection(collection_title, artist, title, user_id)
     return redirect("/collection/" + str(collection_id))
 
 @app.route("/new_release", methods=["POST"])
+@helper.require_login
 def new_release():
     artist = request.form["artist"]
     title = request.form["title"]
     user_id = session["user_id"]
     collection_id = request.form["collection_id"]
 
-    music_collection.add_release(artist, title, user_id, collection_id)
+    try:
+        music_collection.add_release(artist, title, user_id, collection_id)
+    except sqlite3.IntegrityError:
+        abort(403)
+
     return redirect("/collection/" + str(collection_id))
 
 @app.route("/edit/<int:release_id>", methods=["GET", "POST"])
+@helper.require_login
 def edit_release(release_id):
     release = music_collection.get_release(release_id)
+    if not release:
+        abort(404)
+    elif release["user_id"] != session["user_id"]:
+        abort(403)
 
     if request.method == "GET":
         return render_template("edit.html", release=release)
@@ -51,8 +64,13 @@ def edit_release(release_id):
         return redirect("/collection/" + str(release["collection_id"]))
 
 @app.route("/remove/<int:release_id>", methods=["GET", "POST"])
+@helper.require_login
 def remove_release(release_id):
     release = music_collection.get_release(release_id)
+    if not release:
+        abort(404)
+    elif release["user_id"] != session["user_id"]:
+        abort(403)
 
     if request.method == "GET":
         return render_template("remove.html", release=release)
@@ -77,7 +95,7 @@ def register():
 
         try:
             users.create_user(username, password1)
-            return "Tunnus luotu"
+            return redirect("/")
         except sqlite3.IntegrityError:
             return "VIRHE: tunnus on jo varattu"
 
