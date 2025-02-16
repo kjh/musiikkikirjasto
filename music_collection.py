@@ -10,7 +10,8 @@ def get_collections():
 
 def get_collection(collection_id):
     sql = "SELECT id, title FROM collections WHERE id = ?"
-    return db.query(sql, [collection_id])[0]
+    result = db.query(sql, [collection_id])
+    return result[0] if result else None
 
 def get_releases(collection_id):
     sql = """SELECT r.id, r.artist, r.title, r.sent_at, r.user_id, u.username
@@ -21,10 +22,11 @@ def get_releases(collection_id):
 
 def get_release(release_id):
     sql = "SELECT id, artist, title, user_id, collection_id FROM releases WHERE id = ?"
-    return db.query(sql, [release_id])[0]
+    result = db.query(sql, [release_id])
+    return result[0] if result else None
 
 def add_collection(collection_title, artist, title, user_id):
-    sql = "INSERT INTO collections (collection_title, user_id) VALUES (?, ?)"
+    sql = "INSERT INTO collections (title, user_id) VALUES (?, ?)"
     db.execute(sql, [collection_title, user_id])
     collection_id = db.last_insert_id()
     add_release(artist, title, user_id, collection_id)
@@ -32,7 +34,7 @@ def add_collection(collection_title, artist, title, user_id):
 
 def add_release(artist, title, user_id, collection_id):
     sql = """INSERT INTO releases (artist, title, sent_at, user_id, collection_id) VALUES
-             (?, datetime('now'), ?, ?)"""
+             (?, ?, datetime('now'), ?, ?)"""
     db.execute(sql, [artist, title, user_id, collection_id])
 
 def update_release(release_id, artist, title):
