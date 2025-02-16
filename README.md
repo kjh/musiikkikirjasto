@@ -26,3 +26,4 @@
 - Virhetilanteiden käsittely, jos esim. kokoelmaa tai viestiä ei löydy tietokannasta.
 - Lomakkeen kenttien arvojen tarkistus esim. yli 100 pitkä artistin nimi hylätään.
 - Lomakkeet käyttävät text input kenttiä ja oletuskoko 40 merkkiä.
+- Lomakkeiden kentät ovat pakollisia.

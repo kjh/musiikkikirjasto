@@ -27,6 +27,9 @@ def new_collection():
     title = request.form["title"]
     user_id = session["user_id"]
 
+    if not collection_title or not artist or not title:
+        abort(403)
+
     if len(collection_title) > 100 or len(artist) > 100 or len(title) > 100:
         abort(403)
 
@@ -40,6 +43,9 @@ def new_release():
     title = request.form["title"]
     user_id = session["user_id"]
     collection_id = request.form["collection_id"]
+
+    if not artist or not title:
+        abort(403)
 
     if len(artist) > 100 or len(title) > 100:
         abort(403)
@@ -66,6 +72,9 @@ def edit_release(release_id):
     if request.method == "POST":
         artist = request.form["artist"]
         title = request.form["title"]
+
+        if not artist or not title:
+            abort(403)
         
         if len(artist) > 100 or len(title) > 100:
             abort(403)
