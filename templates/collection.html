@@ -34,11 +34,11 @@
   <form action="/new_release" method="post">
     <p>
       Artisti:<br />
-      <textarea name="artist" rows="5" cols="40"></textarea>
+      <input type="text" name="artist" maxlength="100" />
     </p>
     <p>
-      Title:<br />
-      <textarea name="title" rows="5" cols="40"></textarea>
+      Julkaisun nim:<br />
+      <input type="text" name="title" maxlength="100" />
     </p>
     <input type="hidden" name="collection_id" value="{{ collection.id }}" />
     <input type="submit" value="Lähetä" />

@@ -11,11 +11,11 @@
   <form action="/edit/{{ release.id }}" method="post">
     <p>
       Artisti:<br />
-      <textarea name="artist" rows="5" cols="40">{{ release.artist }}</textarea>
+      <input type="text" name="artist" maxlength="100" value="{{ release.artist }}" />
     </p>
     <p>
       Julkaisun nimi:<br />
-      <textarea name="title" rows="5" cols="40">{{ release.title }}</textarea>
+      <input type="text" name="title" maxlength="100" value="{{ release.title }}" />
     </p>
     <input type="submit" value="Lähetä" />
   </form>

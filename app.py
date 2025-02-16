@@ -27,6 +27,9 @@ def new_collection():
     title = request.form["title"]
     user_id = session["user_id"]
 
+    if len(collection_title) > 100 or len(artist) > 100 or len(title) > 100:
+        abort(403)
+
     collection_id = music_collection.add_collection(collection_title, artist, title, user_id)
     return redirect("/collection/" + str(collection_id))
 
@@ -37,6 +40,9 @@ def new_release():
     title = request.form["title"]
     user_id = session["user_id"]
     collection_id = request.form["collection_id"]
+
+    if len(artist) > 100 or len(title) > 100:
+        abort(403)
 
     try:
         music_collection.add_release(artist, title, user_id, collection_id)
@@ -60,6 +66,10 @@ def edit_release(release_id):
     if request.method == "POST":
         artist = request.form["artist"]
         title = request.form["title"]
+        
+        if len(artist) > 100 or len(title) > 100:
+            abort(403)
+        
         music_collection.update_release(release["id"], artist, title)
         return redirect("/collection/" + str(release["collection_id"]))
 
