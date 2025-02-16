@@ -24,3 +24,5 @@
 - Tietyt toiminnot vaativat kirjatumisen. Tämä on toteutettu dekoraattorilla @helper.require_login.
 - Jos käyttäjä yrittää muokata/poistaa toisen kokoelmaan kuuluvia julkaisuja, se on estetty.
 - Virhetilanteiden käsittely, jos esim. kokoelmaa tai viestiä ei löydy tietokannasta.
+- Lomakkeen kenttien arvojen tarkistus esim. yli 100 pitkä artistin nimi hylätään.
+- Lomakkeet käyttävät text input kenttiä ja oletuskoko 40 merkkiä.
