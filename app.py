@@ -28,10 +28,46 @@ def index():
 @app.route("/collection/<int:collection_id>")
 def show_collection(collection_id):
     collection = music_collection.get_collection(collection_id)
+    like_count = music_collection.count_collection_likes(collection_id)
+    user_id = session["user_id"]
+    
     if not collection:
         abort(404)
     releases = music_collection.get_releases(collection_id)
-    return render_template("collection.html", collection=collection, releases=releases)
+    
+    has_liked = True if music_collection.has_user_liked(user_id, collection_id) else False
+
+    return render_template("collection.html", collection=collection, like_count=like_count, has_liked=has_liked, releases=releases)
+
+@app.route("/like_collection", methods=["POST"])
+@helper.require_login
+def like_collection():
+    collection_id = request.form["collection_id"]
+    user_id = session["user_id"]
+
+    if music_collection.has_user_liked(user_id, collection_id):
+        abort(403)
+   
+    try:
+        music_collection.add_like(user_id, collection_id)
+        return redirect("/")
+    except sqlite3.IntegrityError:
+        abort(403)
+    
+@app.route("/delete_like_collection", methods=["POST"])
+@helper.require_login
+def delete_like_collection():
+    collection_id = request.form["collection_id"]
+    user_id = session["user_id"]
+
+    if not music_collection.has_user_liked(user_id, collection_id):
+        abort(403)
+   
+    try:
+        music_collection.delete_like(user_id, collection_id)
+        return redirect("/")
+    except sqlite3.IntegrityError:
+        abort(403)
 
 @app.route("/new_collection", methods=["POST"])
 @helper.require_login

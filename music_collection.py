@@ -76,3 +76,22 @@ def update_release(release_id, artist, title):
 def remove_release(release_id):
     sql = "DELETE FROM releases WHERE id = ?"
     db.execute(sql, [release_id])
+
+def add_like(user_id, collection_id):
+    sql = "INSERT INTO likes (user_id, collection_id) VALUES (?, ?)"
+    db.execute(sql, [user_id, collection_id])
+
+def delete_like(user_id, collection_id):
+    sql = "DELETE FROM likes WHERE user_id = ? AND collection_id = ?"
+    db.execute(sql, [user_id, collection_id])
+
+def has_user_liked(user_id, collection_id):
+    sql = "SELECT 1 FROM likes WHERE user_id = ? AND collection_id = ?"
+    result = db.query(sql, [user_id, collection_id])
+    return result if result else None  
+
+def count_collection_likes(collection_id):
+    sql = "SELECT COUNT(*) FROM likes WHERE collection_id = ?"
+    result = db.query(sql, [collection_id])
+    return result[0][0] if result else 0
+

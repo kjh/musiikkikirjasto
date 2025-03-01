@@ -18,3 +18,10 @@ CREATE TABLE releases (
     user_id INTEGER REFERENCES users,
     collection_id INTEGER REFERENCES collections
 );
+
+CREATE TABLE likes (
+    id INTEGER PRIMARY KEY,
+    user_id INTEGER REFERENCES users,
+    collection_id INTEGER REFERENCES collections,
+    UNIQUE (user_id, collection_id)
+);
