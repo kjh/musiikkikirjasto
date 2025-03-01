@@ -58,6 +58,12 @@ def new_release():
     user_id = session["user_id"]
     collection_id = request.form["collection_id"]
 
+    collection = music_collection.get_collection(collection_id)
+    if not collection:
+        abort(404)
+    elif collection["user_id"] != session["user_id"]:
+        abort(403)
+
     if not artist or not title:
         abort(403)
 

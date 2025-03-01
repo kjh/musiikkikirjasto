@@ -2,11 +2,11 @@
 <html>
 
 <head>
-  <title>{{ collection.title }}</title>
+  <title>{{ collection.title }} - {{ collection.username }} </title>
 </head>
 
 <body>
-  <h1>{{ collection.title }}</h1>
+  <h1>{{ collection.title }} - {{ collection.username }}</h1>
 
   <hr />
   {% for release in releases %}
@@ -27,8 +27,8 @@
   {% endif %}
   <hr />
   {% endfor %}
-
-  {% if session.user_id %}
+  
+  {% if session.user_id and collection.user_id == session.user_id %}
   <h2>Uusi julkaisu</h2>
 
   <form action="/new_release" method="post">

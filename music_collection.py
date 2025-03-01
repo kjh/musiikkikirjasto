@@ -30,17 +30,20 @@ def search(query):
     return db.query(sql, ["%" + query + "%", "%" + query + "%"])
 
 def get_collections():
-    sql = """SELECT c.id, c.title, COUNT(r.id) total, MAX(r.sent_at) last
-             FROM collections c, releases r
-             WHERE c.id = r.collection_id
+    sql = """SELECT c.id, c.title, COUNT(r.id) total, MAX(r.sent_at) last, u.username
+             FROM collections c, releases r, users u
+             WHERE c.user_id = u.id AND c.id = r.collection_id
              GROUP BY c.id
              ORDER BY c.id DESC"""
     return db.query(sql)
 
 def get_collection(collection_id):
-    sql = "SELECT id, title FROM collections WHERE id = ?"
+    sql = """SELECT c.id, c.title, c.user_id, u.username
+             FROM collections c, users u
+             WHERE c.user_id = u.id AND c.id = ?"""
     result = db.query(sql, [collection_id])
     return result[0] if result else None
+
 
 def get_releases(collection_id):
     sql = """SELECT r.id, r.artist, r.title, r.sent_at, r.user_id, u.username
