@@ -11,11 +11,11 @@
 - Käyttäjä voi jakaa musikkikirjaston. 
 
 # Välipalautus 2 
-- tunnuksen luominen onnistuu
-- kirjautuminen onnistuu
-- tietokannassa kokoelmat ja julkaisut
-- kokoelman lisääminen ei toimi vielä
-- levyn lisääminen ei toimi vielä
+- Tunnuksen luominen onnistuu
+- Kirjautuminen onnistuu
+- Tietokannassa kokoelmat ja julkaisut
+- Kokoelman lisääminen ei toimi vielä
+- Levyn lisääminen ei toimi vielä
 
 # Välipalautus 3
 - Käyttäjän tunnuksen luominen ja kirjautuminen onnistuu.
@@ -29,4 +29,24 @@
 - Lomakkeiden kentät ovat pakollisia.
 - Hakutoiminto lisätty. Listaa kokoelmat jotka sisältävät haetun artistin tai levyn nimen.
 - Käyttäjäsivut lisätty. Sivu näyttää käyttäjän nimen, julkaisujen määrän ja vanhimman ja uusimman lisätyn julkaisun päiväyksen ja kellonajan. 
+
+# Lopullinen palautus
+- Käyttäjä pystyy luomaan tunnuksen ja kirjautumaan sisään sovellukseen.
+- Salasana tallennetaan turvallisesti tietokantaan.
+- Käyttäjä pystyy lisäämään, muokkaamaan kokoelmia.
+- Käyttäjä pystyy lisäämään, muokkaamaan ja poistamaan kokoelman julkaisuja (levyjä).
+- Käyttäjä näkee sovellukseen lisätyt kokoelmat ja julkaisut.
+- Käyttäjä pystyy etsimään julkaisuja hakusanalla. Tietoa etsitään julkaisun nimen (title), artistin (artists) ja tagien perustella.
+- Sovelluksessa on käyttäjäsivut, jotka näyttävät tilastoja (julkaisujen määrä, uusin ja vanhin julkaisu) ja käyttäjän lisäämät kokoelmat.
+- Käyttäjä pystyy valitsemaan kokoelmalle useamman tagin esim. rock, pop, 2000.
+- Käyttäjä pystyy muokkaamaan lisäämään ja poistamaan kokoelmaan liitettyjä tageja.
+- Tietyt toiminnot vaativat kirjatumisen. Tämä on toteutettu dekoraattorilla @helper.require_login.
+- Jos käyttäjä yrittää muokata/poistaa toisen kokoelmia tai kokoelmaan kuuluvia julkaisuja, se on estetty.
+- Virhetilanteiden käsittely, jos esim. kokoelmaa tai viestiä ei löydy tietokannasta.
+- Lomakkeen kenttien arvojen tarkistus esim. yli 100 pitkä artistin nimi hylätään.
+- Lomakkeet käyttävät text input kenttiä ja oletuskoko 40 merkkiä.
+- Lomakkeiden kentät ovat pakollisia, jos vaaditaan arvo.
+- Sivu käyttää CSS-tyylejä.
+
+
 
