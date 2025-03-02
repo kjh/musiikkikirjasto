@@ -7,15 +7,15 @@
 
 <body>
     <h1>Kokoelman muokkaus</h1>
-    <h3>{{ collection.title }} owner: {{ collection.username }} like count: {{ like_count }}</h3>
+    <h3>{{ collection.title }}, kokoelman omistaja: {{ collection.username }}, like count: {{ like_count }}</h3>
     <form action="/edit_collection/{{ collection.id }}" method="post">
         <p>
-            Title:<br />
+            Kokoelman nimi:<br />
             <input type="text" name="collection_title" maxlength="100" size="40" value="{{ collection.title }}" required />
         </p>
         <input type="submit" value="Lähetä" />
     </form>
-    <p> Tags: </p>
+    <p> Tagit: </p>
     {% for tag in tags %}
     <p>
         {{ tag.name }} 
@@ -29,6 +29,7 @@
         </p>
         <input type="hidden" name="collection_id" value="{{ collection.id }}" />
         <input type="submit" value="Lisää" />
+        <p>Voit lisätä useita tageja erottelemalla ne pilkulla. Esimerkiksi: 'tagi1, tagi2, tagi3'.</p>
       </form>
       <hr />
     <p>

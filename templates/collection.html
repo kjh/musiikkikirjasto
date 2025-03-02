@@ -7,7 +7,7 @@
 
 <body>
   <h1>{{ collection.title }} owner: {{ collection.username }} like count: {{ like_count }}</h1>
-  <p> Tags:
+  <p> Tagit:
   {% for tag in tags %}
   
   {{ tag.name }}{% if not loop.last %}, {% endif %}
