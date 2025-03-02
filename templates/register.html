@@ -1,34 +1,30 @@
-<!DOCTYPE html>
-<html>
+{% extends "no_nav_layout.html" %}
 
-<head>
-  <link rel="stylesheet" href="/static/main.css">
-  <title>Luo tunnus</title>
-</head>
+{% block title %}Musiikkikirjasto - luo tunnus{% endblock %}
 
-<body>
-  <h1>Luo tunnus</h1>
+{% block content %}
+<h3>Luo tunnus</h3>
 
-  <form action="/register" method="post">
-    <p>
-      Tunnus: <br />
-      <input type="text" name="username" />
-    </p>
-    <p>
-      Salasana: <br />
-      <input type="password" name="password1" />
-    </p>
-    <p>
-      Salasana uudestaan: <br />
-      <input type="password" name="password2" />
-    </p>
-    <input type="submit" value="Luo tunnus" />
-  </form>
+<hr />
 
-  <hr />
+<form action="/register" method="post">
   <p>
-    <a href="/">Etusivulle</a>
+    Tunnus: <br />
+    <input type="text" name="username" />
   </p>
-</body>
+  <p>
+    Salasana: <br />
+    <input type="password" name="password1" />
+  </p>
+  <p>
+    Salasana uudestaan: <br />
+    <input type="password" name="password2" />
+  </p>
+  <input type="submit" value="Luo tunnus" />
+</form>
 
-</html>
+<hr />
+<p>
+  <a href="/">Etusivulle</a>
+</p>
+{% endblock %}

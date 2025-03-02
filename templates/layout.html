@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>{% block title %}{% endblock %}</title>
+  <link rel="stylesheet" href="/static/main.css">
+</head>
+
+<body>
+  <div class="header">
+    <h1>Musiikkikirjasto</h1>
+  </div>
+
+  <div class="nav">
+    <p>
+        <a href="/">Etusivu</a> | <a href="/search">Haku</a> |
+        {% if session.user_id %}
+        <a href="/logout">Kirjaudu ulos</a>
+        {% else %}
+        <a href="/register">Luo tunnus</a> | <a href="/login">Kirjaudu sisään</a>
+        {% endif %}
+    </p>
+  </div>
+
+  <div class="content">
+    {% block content %}{% endblock %}
+  </div>
+</body>
+
+</html>

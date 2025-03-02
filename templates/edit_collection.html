@@ -1,41 +1,40 @@
-<!DOCTYPE html>
-<html>
+{% extends "layout.html" %}
 
-<head>
-    <link rel="stylesheet" href="/static/main.css">
-    <title>{{ collection.title }} - {{ collection.username }} </title>
-</head>
+{% block title %}Musiikkikirjasto - Kokoelman muokkaus{% endblock %}
 
-<body>
-    <h1>Kokoelman muokkaus</h1>
-    <h3>{{ collection.title }}, kokoelman omistaja: {{ collection.username }}, like count: {{ like_count }}</h3>
-    <form action="/edit_collection/{{ collection.id }}" method="post">
-        <p>
-            Kokoelman nimi:<br />
-            <input type="text" name="collection_title" maxlength="100" size="40" value="{{ collection.title }}" required />
-        </p>
-        <input type="submit" value="Lähetä" />
-    </form>
-    <p> Tagit: </p>
-    {% for tag in tags %}
+{% block content %}
+<h3>{{ collection.title }} - kokoelman muokkaus</h3>
+
+<hr />
+
+<p>kokoelman omistaja: {{ collection.username }}. Kokoelmasta on tykätty {{ like_count or 0 }} kertaa.</p>
+
+<form action="/edit_collection/{{ collection.id }}" method="post">
     <p>
-        {{ tag.name }} 
-        <a href="/remove_tag/{{ tag.id }}/{{ collection.id }}">Poista</a>
+        Kokoelman nimi:<br />
+        <input type="text" name="collection_title" maxlength="100" size="40" value="{{ collection.title }}" required />
     </p>
-    {% endfor %}
-    <form action="/add_tags" method="post">
-        <p>
-          Lisää tagit:<br />
-          <input type="text" name="tags" maxlength="100" size="40" required />
-        </p>
-        <input type="hidden" name="collection_id" value="{{ collection.id }}" />
-        <input type="submit" value="Lisää" />
-        <p>Voit lisätä useita tageja erottelemalla ne pilkulla. Esimerkiksi: 'tagi1, tagi2, tagi3'.</p>
-      </form>
-      <hr />
+    <input type="submit" value="Tallenna" />
+</form>
+<p> Tagit: </p>
+{% for tag in tags %}
+<p>
+    {{ tag.name }}
+    <a href="/remove_tag/{{ tag.id }}/{{ collection.id }}">Poista</a>
+</p>
+{% endfor %}
+<form action="/add_tags" method="post">
     <p>
-        <a href="/collection/{{ collection.id }}">Kokoelmaan</a>
+        Lisää tagit:<br />
+        <input type="text" name="tags" maxlength="100" size="40" required />
     </p>
-</body>
+    <input type="hidden" name="collection_id" value="{{ collection.id }}" />
+    <input type="submit" value="Lisää" />
+    <p>Voit lisätä useita tageja erottelemalla ne pilkulla. Esimerkiksi: 'tagi1, tagi2, tagi3'.</p>
+</form>
+<hr />
+<p>
+    <a href="/collection/{{ collection.id }}">Kokoelmaan</a>
+</p>
 
-</html>
+{% endblock %}

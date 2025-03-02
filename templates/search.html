@@ -1,45 +1,41 @@
-<!DOCTYPE html>
-<html>
+{% extends "layout.html" %}
 
-<head>
-    <link rel="stylesheet" href="/static/main.css">
-    <title>Hakutulokset</title>
-</head>
+{% block title %}Musiikkikirjasto - haku{% endblock %}
 
-<body>
-    <form action="/search" method="get">
-        <p>
-            Hakusana:
-            {% if query %}
-            <input type="text" name="query" value="{{ query }}" />
-            {% else %}
-            <input type="text" name="query" />
-            {% endif %}
-        </p>
-        <input type="submit" value="Hae" />
-    </form>
-
-    {% if query %}
-    <hr />
-    <h2>Tulokset</h2>
-
-    <ul>
-        {% for result in results %}
-        <li>
-            <a href="/collection/{{ result.collection_id }}">
-                {{ result.collection_title }}
-            </a>
-            <br />
-            {{ result.username }} ({{ result.sent_at }})
-        </li>
-        {% endfor %}
-    </ul>
-    {% endif %}
-
-    <hr />
+{% block content %}
+<h3>Haku</h3>
+<hr />
+<form action="/search" method="get">
     <p>
-        <a href="/">Etusivulle</a>
+        Hakusana:
+        {% if query %}
+        <input type="text" name="query" value="{{ query }}" />
+        {% else %}
+        <input type="text" name="query" />
+        {% endif %}
     </p>
-</body>
+    <input type="submit" value="Hae" />
+</form>
 
-</html>
+{% if query %}
+<hr />
+<h3>Tulokset</h3>
+
+<ul>
+    {% for result in results %}
+    <li>
+        <a href="/collection/{{ result.collection_id }}">
+            {{ result.collection_title }}
+        </a>
+        <br />
+        {{ result.username }} ({{ result.sent_at }})
+    </li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+<hr />
+<p>
+    <a href="/">Etusivulle</a>
+</p>
+{% endblock %}

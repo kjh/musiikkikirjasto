@@ -48,6 +48,7 @@
 - Lomakkeet käyttävät text input kenttiä ja oletuskoko 40 merkkiä.
 - Lomakkeiden kentät ovat pakollisia, jos vaaditaan arvo.
 - Sivu käyttää CSS-tyylejä.
+- SQL-komennossa on käytetty parametreja.
 
 
 

@@ -1,42 +1,42 @@
-<!DOCTYPE html>
-<html>
+{% extends "layout.html" %}
 
-<head>
-  <link rel="stylesheet" href="/static/main.css">
-  <title>Käyttäjä</title>
-</head>
+{% block title %}Musiikkikirjasto - käyttäjä{% endblock %}
 
-<body>
-    <h1>Käyttäjä {{ user.username }}</h1>
+{% block content %}
+<h3>Käyttäjä {{ user.username }}</h3>
+<hr />
 
-    <p>
-      Käyttäjä on lisännyt kokoelmiin {{ releases | count }} julkaisua
-    </p>
-  
-    {% if releases %}
-    <p>
-      Vanhin kokoelmiin lisätty julkaisu {{ releases[-1].sent_at }}
-    </p>
-    <p>
-      Uusin kokoelmiin lisätty julkaisu {{ releases[0].sent_at }}
-    </p>
-    {% endif %}
-    <ul>
-    {% for release in releases %}
-      <li>
-        <a href="/collection/{{ release.collection_id }}#{{ release.id }}">
-          {{ release.collection_title }}: {{ release.title }} - {{ release.artist }}
-        </a>
-        <br />
-        ({{ release.sent_at }})
-      </li>  
-    {% endfor %}
-    </ul>
+<p>
+  Käyttäjä on lisännyt kokoelmiin {{ releases | count }} julkaisua
+</p>
 
-    <hr />
-    <p>
-      <a href="/">Etusivulle</a>
-    </p>
-</body>
+{% if releases %}
+<p>
+  Vanhin kokoelmiin lisätty julkaisu {{ releases[-1].sent_at }}
+</p>
+<p>
+  Uusin kokoelmiin lisätty julkaisu {{ releases[0].sent_at }}
+</p>
+{% endif %}
 
-</html>
+<hr />
+
+<h3>Käyttäjän lisäämät julkaisut</h3>
+
+<ul>
+  {% for release in releases %}
+  <li>
+    <a href="/collection/{{ release.collection_id }}#{{ release.id }}">
+      {{ release.collection_title }}: {{ release.title }} - {{ release.artist }}
+    </a>
+    <br />
+    ({{ release.sent_at }})
+  </li>
+  {% endfor %}
+</ul>
+
+<hr />
+<p>
+  <a href="/">Etusivulle</a>
+</p>
+{% endblock %}

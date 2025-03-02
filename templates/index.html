@@ -1,65 +1,53 @@
-<!DOCTYPE html>
-<html>
+{% extends "layout.html" %}
 
-<head>
-  <link rel="stylesheet" href="/static/main.css">
-  <title>Musiikkikirjasto</title>
-</head>
+{% block title %}Musiikkikirjasto{% endblock %}
 
-<body>
-  <h1>Musiikkikirjasto</h1>
+{% block content %}
+<h2>Etusivu</h2>
 
+<hr />
+
+<form action="/search" method="get">
   <p>
-    {% if session.user_id %}
-    <a href="/logout">Kirjaudu ulos</a>
+    Hakusana:
+    {% if query %}
+    <input type="text" name="query" value="{{ query }}" />
     {% else %}
-    <a href="/register">Luo tunnus</a> | <a href="/login">Kirjaudu sisään</a>
+    <input type="text" name="query" />
     {% endif %}
   </p>
+  <input type="submit" value="Hae" />
+</form>
 
-  <hr />
+<hr />
+{% for collection in collections %}
+<p>
+  <a href="/collection/{{ collection.id }}">{{ collection.title }}</a>
+  <br />
+  {{ collection.total }} julkaisua, uusin {{ collection.last }} (kokoelman omistaja: <a
+    href="/user/{{ collection.user_id }}">{{ collection.username }}</a>)
+</p>
+<hr />
+{% endfor %}
 
-  <form action="/search" method="get">
-    <p>
-      Hakusana:
-      {% if query %}
-      <input type="text" name="query" value="{{ query }}" />
-      {% else %}
-      <input type="text" name="query" />
-      {% endif %}
-    </p>
-    <input type="submit" value="Hae" />
-  </form>
+{% if session.user_id %}
+<h2>Uusi kokoelma</h2>
 
-  <hr />
-  {% for collection in collections %}
+<form action="/new_collection" method="post">
   <p>
-    <a href="/collection/{{ collection.id }}">{{ collection.title }}</a>
-    <br />
-    {{ collection.total }} julkaisua, uusin {{ collection.last }} (kokoelman omistaja: <a href="/user/{{ collection.user_id }}">{{ collection.username }}</a>)
+    Kokoelman nimi:<br />
+    <input type="text" name="collection_title" size="40" required />
   </p>
-  <hr />
-  {% endfor %}
+  <p>
+    Artisti:<br />
+    <input type="text" name="artist" maxlength="100" size="40" required />
+  </p>
+  <p>
+    Julkaisun nimi:<br />
+    <input type="text" name="title" maxlength="100" size="40" required />
+  </p>
+  <input type="submit" value="Lisää" />
+</form>
+{% endif %}
 
-  {% if session.user_id %}
-  <h2>Uusi kokoelma</h2>
-
-  <form action="/new_collection" method="post">
-    <p>
-      Kokoelman nimi:<br />
-      <input type="text" name="collection_title" size="40" required />
-    </p>
-    <p>
-      Artisti:<br />
-      <input type="text" name="artist" maxlength="100" size="40" required />
-    </p>
-    <p>
-      Julkaisun nimi:<br />
-      <input type="text" name="title" maxlength="100" size="40" required />
-    </p>
-    <input type="submit" value="Lisää" />
-  </form>
-  {% endif %}
-</body>
-
-</html>
+{% endblock %}

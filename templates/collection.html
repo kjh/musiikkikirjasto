@@ -1,86 +1,81 @@
-<!DOCTYPE html>
-<html>
+{% extends "layout.html" %}
 
-<head>
-  <link rel="stylesheet" href="/static/main.css">
-  <title>{{ collection.title }} - {{ collection.username }} </title>
-</head>
+{% block title %}Musiikkikirjasto: {{ collection.title }} - {{ collection.username }}{% endblock %}
 
-<body>
-  <h1>{{ collection.title }}</h1> 
-  <p>Kokoelman on luonut: <a href="/user/{{ collection.user_id }}">{{ collection.username }}</a></p> 
-  <p>Tykkäyksiä: {{ like_count }}</p>
-  <p> Tagit:
+{% block content %}
+<h2>{{ collection.title }}</h2>
+<hr />
+<p>Kokoelman on luonut: <a href="/user/{{ collection.user_id }}">{{ collection.username }}</a></p>
+<p>Tykkäyksiä: {{ like_count }}</p>
+<p> Tagit:
   {% for tag in tags %}
-  
+
   {{ tag.name }}{% if not loop.last %}, {% endif %}
 
   {% endfor %}
-  </p>
-  
-  {% if session.user_id and collection.user_id == session.user_id %}
-  <p>
-    <a href="/edit_collection/{{ collection.id }}">Muokkaa</a> 
-  </p>    
-  {% endif %}
+</p>
 
-  <hr />
-  <h3>Julkaisut</h3>
-  {% for release in releases %}
-  <p id="{{ release.id }}">
-    Lisätty: {{ release.sent_at }}
+{% if session.user_id and collection.user_id == session.user_id %}
+<p>
+  <a href="/edit_collection/{{ collection.id }}">Muokkaa</a>
+</p>
+{% endif %}
+
+<hr />
+<h3>Julkaisut</h3>
+{% for release in releases %}
+<p id="{{ release.id }}">
+  Lisätty: {{ release.sent_at }}
+</p>
+<p>
+  Artisti: {{ release.artist }}
+</p>
+<p>
+  Julkaisun nimi: {{ release.title }}
+</p>
+{% if release.user_id == session.user_id %}
+<p>
+  <a href="/edit/{{ release.id }}">Muokkaa</a> |
+  <a href="/remove/{{ release.id }}">Poista</a>
+</p>
+{% endif %}
+<hr />
+{% endfor %}
+
+{% if session.user_id and collection.user_id == session.user_id %}
+<h2>Uusi julkaisu</h2>
+
+<form action="/new_release" method="post">
+  <p>
+    Artisti:<br />
+    <input type="text" name="artist" maxlength="100" size="40" required />
   </p>
   <p>
-    Artisti: {{ release.artist }}
+    Julkaisun nimi:<br />
+    <input type="text" name="title" maxlength="100" size="40" required />
   </p>
-  <p>
-    Julkaisun nimi: {{ release.title }}
-  </p>
-  {% if release.user_id == session.user_id %}
-  <p>
-    <a href="/edit/{{ release.id }}">Muokkaa</a> |
-    <a href="/remove/{{ release.id }}">Poista</a>
-  </p>
-  {% endif %}
-  <hr />
-  {% endfor %}
-  
-  {% if session.user_id and collection.user_id == session.user_id %}
-  <h2>Uusi julkaisu</h2>
+  <input type="hidden" name="collection_id" value="{{ collection.id }}" />
+  <input type="submit" value="Lisää" />
+</form>
+{% endif %}
 
-  <form action="/new_release" method="post">
-    <p>
-      Artisti:<br />
-      <input type="text" name="artist" maxlength="100" size="40" required />
-    </p>
-    <p>
-      Julkaisun nimi:<br />
-      <input type="text" name="title" maxlength="100" size="40" required />
-    </p>
-    <input type="hidden" name="collection_id" value="{{ collection.id }}" />
-    <input type="submit" value="Lisää" />
-  </form>
-  {% endif %}
+{% if session.user_id and collection.user_id != session.user_id and not has_liked %}
+<form action="/like_collection" method="post">
+  <input type="hidden" name="collection_id" value="{{ collection.id }}" />
+  <input type="hidden" name="user_id" value="{{ session.user_id }}" />
+  <input type="submit" value="tykkää" />
+</form>
+<hr />
+{% elif session.user_id and collection.user_id != session.user_id and has_liked %}
+<form action="/delete_like_collection" method="post">
+  <input type="hidden" name="collection_id" value="{{ collection.id }}" />
+  <input type="hidden" name="user_id" value="{{ session.user_id }}" />
+  <input type="submit" value="poista tykkäys" />
+</form>
+<hr />
+{% endif %}
 
-  {% if session.user_id and collection.user_id != session.user_id and not has_liked %}
-  <form action="/like_collection" method="post">
-    <input type="hidden" name="collection_id" value="{{ collection.id }}" />
-    <input type="hidden" name="user_id" value="{{ session.user_id }}" />
-    <input type="submit" value="tykkää" />
-  </form>
-  <hr />
-  {% elif session.user_id and collection.user_id != session.user_id and has_liked %}
-  <form action="/delete_like_collection" method="post">
-    <input type="hidden" name="collection_id" value="{{ collection.id }}" />
-    <input type="hidden" name="user_id" value="{{ session.user_id }}" />
-    <input type="submit" value="poista tykkäys" />
-  </form>
-  <hr />
-  {% endif %}
-
-  <p>
-    <a href="/">Etusivulle</a>
-  </p>
-</body>
-
-</html>
+<p>
+  <a href="/">Etusivulle</a>
+</p>
+{% endblock %}
