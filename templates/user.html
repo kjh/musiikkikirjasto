@@ -20,6 +20,17 @@
       Uusin kokoelmiin lisätty julkaisu {{ releases[0].sent_at }}
     </p>
     {% endif %}
+    <ul>
+    {% for release in releases %}
+      <li>
+        <a href="/collection/{{ release.collection_id }}#{{ release.id }}">
+          {{ release.collection_title }}: {{ release.title }} - {{ release.artist }}
+        </a>
+        <br />
+        ({{ release.sent_at }})
+      </li>  
+    {% endfor %}
+    </ul>
 </body>
 
 </html>

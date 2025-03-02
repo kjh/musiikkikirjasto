@@ -8,6 +8,8 @@ def get_user(user_id):
 def get_user_releases(user_id):
     sql = """SELECT r.id,
                     r.collection_id,
+                    r.title,
+                    r.artist,
                     c.title collection_title,
                     r.sent_at
              FROM collections c, releases r
