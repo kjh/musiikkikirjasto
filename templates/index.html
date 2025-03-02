@@ -34,6 +34,7 @@
 <h2>Uusi kokoelma</h2>
 
 <form action="/new_collection" method="post">
+  <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
   <p>
     Kokoelman nimi:<br />
     <input type="text" name="collection_title" size="40" required />

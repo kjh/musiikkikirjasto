@@ -50,6 +50,7 @@
 - Sivu käyttää CSS-tyylejä.
 - SQL-komennossa on käytetty parametreja.
 - Käytetään sivupohjia.
+- Suojaudutaan CSRF-hyökkäyksiltä (julkaisut ja kokoelmat).  
 
 
 

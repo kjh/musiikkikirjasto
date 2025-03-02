@@ -10,6 +10,7 @@
 <p>kokoelman omistaja: {{ collection.username }}. Kokoelmasta on tykätty {{ like_count or 0 }} kertaa.</p>
 
 <form action="/edit_collection/{{ collection.id }}" method="post">
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
     <p>
         Kokoelman nimi:<br />
         <input type="text" name="collection_title" maxlength="100" size="40" value="{{ collection.title }}" required />

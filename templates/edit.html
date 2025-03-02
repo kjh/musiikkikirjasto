@@ -9,6 +9,7 @@
 
 
 <form action="/edit/{{ release.id }}" method="post">
+  <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
   <p>
     Artisti:<br />
     <input type="text" name="artist" maxlength="100" size="40" value="{{ release.artist }}" required />

@@ -8,3 +8,4 @@ def require_login(func):
             abort(403)  # Forbidden
         return func(*args, **kwargs)
     return decorated_function
+    

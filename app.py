@@ -2,10 +2,14 @@ import sqlite3
 from flask import Flask, abort
 from flask import redirect, render_template, request, session
 import config, music_collection, users, helper
-import re
+import secrets
 
 app = Flask(__name__)
 app.secret_key = config.secret_key
+
+def check_csrf():
+    if request.form["csrf_token"] != session["csrf_token"]:
+        abort(403)
 
 @app.route("/user/<int:user_id>")
 def show_user(user_id):
@@ -75,7 +79,7 @@ def delete_like_collection():
 
 @app.route("/edit_collection/<int:collection_id>", methods=["GET", "POST"])
 @helper.require_login
-def edit_collection(collection_id):     
+def edit_collection(collection_id):    
     collection = music_collection.get_collection(collection_id)
     tags = music_collection.get_collection_tags(collection_id)
     if not collection:
@@ -87,6 +91,7 @@ def edit_collection(collection_id):
         return render_template("edit_collection.html", collection=collection, tags=tags)
 
     if request.method == "POST":
+        check_csrf() 
         new_title = request.form["collection_title"]
 
         if not new_title:
@@ -143,6 +148,7 @@ def remove_tag(tag_id, collection_id):
 @app.route("/new_collection", methods=["POST"])
 @helper.require_login
 def new_collection():
+    check_csrf()
     collection_title = request.form["collection_title"]
     artist = request.form["artist"]
     title = request.form["title"]
@@ -160,6 +166,7 @@ def new_collection():
 @app.route("/new_release", methods=["POST"])
 @helper.require_login
 def new_release():
+    check_csrf()
     artist = request.form["artist"]
     title = request.form["title"]
     user_id = session["user_id"]
@@ -197,6 +204,7 @@ def edit_release(release_id):
         return render_template("edit.html", release=release)
 
     if request.method == "POST":
+        check_csrf()
         artist = request.form["artist"]
         title = request.form["title"]
 
@@ -222,6 +230,7 @@ def remove_release(release_id):
         return render_template("remove.html", release=release)
 
     if request.method == "POST":
+        check_csrf() 
         if "continue" in request.form:
             music_collection.remove_release(release["id"])
         return redirect("/collection/" + str(release["collection_id"]))
@@ -257,6 +266,7 @@ def login():
         user_id = users.check_login(username, password)
         if user_id:
             session["user_id"] = user_id
+            session["csrf_token"] = secrets.token_hex(16)
             return redirect("/")
         else:
             return "VIRHE: väärä tunnus tai salasana"
