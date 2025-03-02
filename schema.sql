@@ -25,3 +25,14 @@ CREATE TABLE likes (
     collection_id INTEGER REFERENCES collections,
     UNIQUE (user_id, collection_id)
 );
+
+CREATE TABLE tags (
+    id INTEGER PRIMARY KEY,
+    name TEXT UNIQUE
+);
+
+CREATE TABLE collection_tags (
+    collection_id INTEGER REFERENCES collections,
+    tag_id INTEGER REFERENCES tags,
+    PRIMARY KEY (collection_id, tag_id)
+);

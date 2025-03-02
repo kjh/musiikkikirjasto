@@ -7,6 +7,13 @@
 
 <body>
   <h1>{{ collection.title }} owner: {{ collection.username }} like count: {{ like_count }}</h1>
+  <p> Tags:
+  {% for tag in tags %}
+  
+  {{ tag.name }}{% if not loop.last %}, {% endif %}
+
+  {% endfor %}
+  <p>
 
   <hr />
   {% for release in releases %}
@@ -42,6 +49,15 @@
     </p>
     <input type="hidden" name="collection_id" value="{{ collection.id }}" />
     <input type="submit" value="Lähetä" />
+  </form>
+  
+  <form action="/add_tags" method="post">
+    <p>
+      Lisää tagit:<br />
+      <input type="text" name="tags" maxlength="100" size="40" required />
+    </p>
+    <input type="hidden" name="collection_id" value="{{ collection.id }}" />
+    <input type="submit" value="Lisää" />
   </form>
   <hr />
   {% endif %}

@@ -2,6 +2,7 @@ import sqlite3
 from flask import Flask, abort
 from flask import redirect, render_template, request, session
 import config, music_collection, users, helper
+import re
 
 app = Flask(__name__)
 app.secret_key = config.secret_key
@@ -29,6 +30,7 @@ def index():
 def show_collection(collection_id):
     collection = music_collection.get_collection(collection_id)
     like_count = music_collection.count_collection_likes(collection_id)
+    tags = music_collection.get_collection_tags(collection_id)
     user_id = session["user_id"]
     
     if not collection:
@@ -37,7 +39,7 @@ def show_collection(collection_id):
     
     has_liked = True if music_collection.has_user_liked(user_id, collection_id) else False
 
-    return render_template("collection.html", collection=collection, like_count=like_count, has_liked=has_liked, releases=releases)
+    return render_template("collection.html", collection=collection, like_count=like_count, has_liked=has_liked, releases=releases, tags=tags)
 
 @app.route("/like_collection", methods=["POST"])
 @helper.require_login
@@ -68,6 +70,28 @@ def delete_like_collection():
         return redirect("/")
     except sqlite3.IntegrityError:
         abort(403)
+
+@app.route("/add_tags", methods=["POST"])
+@helper.require_login
+def add_collection_tags():
+    collection_id = request.form["collection_id"]
+    
+    if not music_collection.get_collection(collection_id):
+        abort(404)
+
+    tags = [tag.strip() for tag in request.form["tags"].split(',')]
+
+    for tag_name in tags:
+        tag_id = music_collection.get_tag_id(tag_name)
+        if not tag_id:
+            music_collection.add_tag(tag_name)
+            tag_id = music_collection.get_tag_id(tag_name)
+        try:    
+            music_collection.add_collection_tag(tag_id, collection_id)
+        except sqlite3.IntegrityError:
+            abort(403)
+
+    return redirect("/collection/" + str(collection_id))
 
 @app.route("/new_collection", methods=["POST"])
 @helper.require_login
