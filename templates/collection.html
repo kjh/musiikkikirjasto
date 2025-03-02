@@ -7,7 +7,9 @@
 </head>
 
 <body>
-  <h1>{{ collection.title }} owner: {{ collection.username }} like count: {{ like_count }}</h1>
+  <h1>{{ collection.title }}</h1> 
+  <p>Kokoelman on luonut: <a href="/user/{{ collection.user_id }}">{{ collection.username }}</a></p> 
+  <p>Tykkäyksiä: {{ like_count }}</p>
   <p> Tagit:
   {% for tag in tags %}
   
@@ -23,16 +25,16 @@
   {% endif %}
 
   <hr />
-  <h3>Julkaisut:</h3>
+  <h3>Julkaisut</h3>
   {% for release in releases %}
   <p id="{{ release.id }}">
-    {{ release.username }} ({{ release.sent_at }}):
+    Lisätty: {{ release.sent_at }}
   </p>
   <p>
-    {{ release.artist }}
+    Artisti: {{ release.artist }}
   </p>
   <p>
-    {{ release.title }}
+    Julkaisun nimi: {{ release.title }}
   </p>
   {% if release.user_id == session.user_id %}
   <p>
@@ -56,7 +58,7 @@
       <input type="text" name="title" maxlength="100" size="40" required />
     </p>
     <input type="hidden" name="collection_id" value="{{ collection.id }}" />
-    <input type="submit" value="Lähetä" />
+    <input type="submit" value="Lisää" />
   </form>
   {% endif %}
 
@@ -64,14 +66,14 @@
   <form action="/like_collection" method="post">
     <input type="hidden" name="collection_id" value="{{ collection.id }}" />
     <input type="hidden" name="user_id" value="{{ session.user_id }}" />
-    <input type="submit" value="like" />
+    <input type="submit" value="tykkää" />
   </form>
   <hr />
   {% elif session.user_id and collection.user_id != session.user_id and has_liked %}
   <form action="/delete_like_collection" method="post">
     <input type="hidden" name="collection_id" value="{{ collection.id }}" />
     <input type="hidden" name="user_id" value="{{ session.user_id }}" />
-    <input type="submit" value="remove like" />
+    <input type="submit" value="poista tykkäys" />
   </form>
   <hr />
   {% endif %}
