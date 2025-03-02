@@ -1,0 +1,35 @@
+body {
+    margin: auto;
+    max-width: 50em;
+    font-family: sans-serif;
+    background-color: rgb(181, 190, 192);
+}
+
+h1 {
+    color: rgb(65, 65, 70);
+    font-size: 36px;
+}
+
+h2 {
+    color: rgb(65, 65, 70);
+    font-size: 30px;
+}
+
+h3 {
+    color: rgb(65, 65, 70);
+    font-size: 24px;
+}
+
+p {
+    color: rgb(43, 54, 63);
+    font-size: 16px;
+}
+
+a {
+    color: rgb(0, 108, 103);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
