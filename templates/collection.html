@@ -10,7 +10,7 @@
 
   <hr />
   {% for release in releases %}
-  <p>
+  <p id="{{ release.id }}">
     {{ release.username }} ({{ release.sent_at }}):
   </p>
   <p>
