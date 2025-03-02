@@ -40,6 +40,7 @@
 - Sovelluksessa on käyttäjäsivut, jotka näyttävät tilastoja (julkaisujen määrä, uusin ja vanhin julkaisu) ja käyttäjän lisäämät kokoelmat.
 - Käyttäjä pystyy valitsemaan kokoelmalle useamman tagin esim. rock, pop, 2000.
 - Käyttäjä pystyy muokkaamaan lisäämään ja poistamaan kokoelmaan liitettyjä tageja.
+- Toisen käyttäjän kokoelmista voi tykätä (ja poistaa tykkäyksen). Kokoelman tykkäysten määrä näkyy sen tiedoissa.
 - Tietyt toiminnot vaativat kirjatumisen. Tämä on toteutettu dekoraattorilla @helper.require_login.
 - Jos käyttäjä yrittää muokata/poistaa toisen kokoelmia tai kokoelmaan kuuluvia julkaisuja, se on estetty.
 - Virhetilanteiden käsittely, jos esim. kokoelmaa tai viestiä ei löydy tietokannasta.
