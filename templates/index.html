@@ -35,7 +35,7 @@
   <p>
     <a href="/collection/{{ collection.id }}">{{ collection.title }}</a>
     <br />
-    {{ collection.total }} julkaisua, uusin {{ collection.last }} (kokoelman omistaja: {{ collection.username }})
+    {{ collection.total }} julkaisua, uusin {{ collection.last }} (kokoelman omistaja: <a href="/user/{{ collection.user_id }}">{{ collection.username }}</a>)
   </p>
   <hr />
   {% endfor %}

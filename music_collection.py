@@ -34,7 +34,7 @@ def search(query):
     return db.query(sql, ["%" + query + "%", "%" + query + "%", "%" + query + "%"])
 
 def get_collections():
-    sql = """SELECT c.id, c.title, COUNT(r.id) total, MAX(r.sent_at) last, u.username
+    sql = """SELECT c.id, c.title, COUNT(r.id) total, MAX(r.sent_at) last, u.username, u.id user_id
              FROM collections c, releases r, users u
              WHERE c.user_id = u.id AND c.id = r.collection_id
              GROUP BY c.id
@@ -67,6 +67,10 @@ def add_collection(collection_title, artist, title, user_id):
     collection_id = db.last_insert_id()
     add_release(artist, title, user_id, collection_id)
     return collection_id
+
+def update_collection(collection_id, collection_title):
+    sql = "UPDATE collections SET title = ? WHERE id = ?"
+    db.execute(sql, [collection_title, collection_id])
 
 def add_release(artist, title, user_id, collection_id):
     sql = """INSERT INTO releases (artist, title, sent_at, user_id, collection_id) VALUES
@@ -127,8 +131,13 @@ def get_tag_id(tag_name):
     result = db.query(sql, [tag_name])
     return result[0][0] if result else None
 
+def get_tag_name(id):
+    sql = "SELECT name FROM tags WHERE id = ?"
+    result = db.query(sql, [id])
+    return result[0][0] if result else None
+
 def delete_tag(tag_id):
-    sql = "DELETE FROM tags WHERE tag_id = ?"
+    sql = "DELETE FROM tags WHERE id = ?"
     db.execute(sql, [tag_id])
 
 

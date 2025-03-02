@@ -31,13 +31,15 @@ def show_collection(collection_id):
     collection = music_collection.get_collection(collection_id)
     like_count = music_collection.count_collection_likes(collection_id)
     tags = music_collection.get_collection_tags(collection_id)
-    user_id = session["user_id"]
-    
+
     if not collection:
         abort(404)
+
     releases = music_collection.get_releases(collection_id)
-    
-    has_liked = True if music_collection.has_user_liked(user_id, collection_id) else False
+
+    has_liked = False
+    if "user_id" in session and music_collection.has_user_liked(session["user_id"], collection_id):
+        has_liked = True 
 
     return render_template("collection.html", collection=collection, like_count=like_count, has_liked=has_liked, releases=releases, tags=tags)
 
@@ -71,6 +73,31 @@ def delete_like_collection():
     except sqlite3.IntegrityError:
         abort(403)
 
+@app.route("/edit_collection/<int:collection_id>", methods=["GET", "POST"])
+@helper.require_login
+def edit_collection(collection_id):     
+    collection = music_collection.get_collection(collection_id)
+    tags = music_collection.get_collection_tags(collection_id)
+    if not collection:
+        abort(404)
+    elif collection["user_id"] != session["user_id"]:
+        abort(403)
+
+    if request.method == "GET":
+        return render_template("edit_collection.html", collection=collection, tags=tags)
+
+    if request.method == "POST":
+        new_title = request.form["collection_title"]
+
+        if not new_title:
+            abort(403)
+        
+        if len(new_title) > 100:
+            abort(403)
+        
+        music_collection.update_collection(collection["id"], new_title)
+        return redirect("/collection/" + str(collection["id"]))
+
 @app.route("/add_tags", methods=["POST"])
 @helper.require_login
 def add_collection_tags():
@@ -91,7 +118,27 @@ def add_collection_tags():
         except sqlite3.IntegrityError:
             abort(403)
 
-    return redirect("/collection/" + str(collection_id))
+    return redirect("/edit_collection/" + str(collection_id))
+
+@app.route("/remove_tag/<int:tag_id>/<int:collection_id>", methods=["GET", "POST"])
+@helper.require_login
+def remove_tag(tag_id, collection_id):
+
+    tag_name = music_collection.get_tag_name(tag_id)
+    collection = music_collection.get_collection(collection_id)
+
+    if not collection or not tag_name:
+        abort(404)
+    elif collection["user_id"] != session["user_id"]:
+        abort(403)
+
+    if request.method == "GET":
+        return render_template("remove_tag.html", tag_id=tag_id, collection_id=collection_id, tag_name=tag_name)
+
+    if request.method == "POST":
+        if "continue" in request.form:
+            music_collection.delete_collection_tag(tag_id, collection_id)
+        return redirect("/collection/" + str(collection_id))
 
 @app.route("/new_collection", methods=["POST"])
 @helper.require_login

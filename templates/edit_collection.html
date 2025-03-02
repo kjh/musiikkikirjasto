@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>{{ collection.title }} - {{ collection.username }} </title>
+</head>
+
+<body>
+    <h1>Kokoelman muokkaus</h1>
+    <h3>{{ collection.title }} owner: {{ collection.username }} like count: {{ like_count }}</h3>
+    <form action="/edit_collection/{{ collection.id }}" method="post">
+        <p>
+            Title:<br />
+            <input type="text" name="collection_title" maxlength="100" size="40" value="{{ collection.title }}" required />
+        </p>
+        <input type="submit" value="Lähetä" />
+    </form>
+    <p> Tags: </p>
+    {% for tag in tags %}
+    <p>
+        {{ tag.name }} 
+        <a href="/remove_tag/{{ tag.id }}/{{ collection.id }}">Poista</a>
+    </p>
+    {% endfor %}
+    <form action="/add_tags" method="post">
+        <p>
+          Lisää tagit:<br />
+          <input type="text" name="tags" maxlength="100" size="40" required />
+        </p>
+        <input type="hidden" name="collection_id" value="{{ collection.id }}" />
+        <input type="submit" value="Lisää" />
+      </form>
+      <hr />
+    <p>
+        <a href="/collection/{{ collection.id }}">Kokoelmaan</a>
+    </p>
+</body>
+
+</html>
