@@ -49,6 +49,7 @@
 - Lomakkeiden kentät ovat pakollisia, jos vaaditaan arvo.
 - Sivu käyttää CSS-tyylejä.
 - SQL-komennossa on käytetty parametreja.
+- Käytetään sivupohjia.
 
 
 
