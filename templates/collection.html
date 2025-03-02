@@ -46,6 +46,7 @@
 <h2>Uusi julkaisu</h2>
 
 <form action="/new_release" method="post">
+  <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
   <p>
     Artisti:<br />
     <input type="text" name="artist" maxlength="100" size="40" required />
@@ -61,6 +62,7 @@
 
 {% if session.user_id and collection.user_id != session.user_id and not has_liked %}
 <form action="/like_collection" method="post">
+  <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
   <input type="hidden" name="collection_id" value="{{ collection.id }}" />
   <input type="hidden" name="user_id" value="{{ session.user_id }}" />
   <input type="submit" value="tykkää" />
@@ -68,6 +70,7 @@
 <hr />
 {% elif session.user_id and collection.user_id != session.user_id and has_liked %}
 <form action="/delete_like_collection" method="post">
+  <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
   <input type="hidden" name="collection_id" value="{{ collection.id }}" />
   <input type="hidden" name="user_id" value="{{ session.user_id }}" />
   <input type="submit" value="poista tykkäys" />

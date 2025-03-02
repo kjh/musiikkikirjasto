@@ -10,6 +10,7 @@
   <h1>Kokoelman tagin poisto</h1>
 
   <form action="/remove_tag/{{ tag_id }}/{{ collection_id }}" method="post">
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
     <p>
       Haluatko varmasti poistaa tagin: {{ tag_name }}?
     </p>

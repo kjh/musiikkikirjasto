@@ -25,6 +25,7 @@
 </p>
 {% endfor %}
 <form action="/add_tags" method="post">
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
     <p>
         Lisää tagit:<br />
         <input type="text" name="tags" maxlength="100" size="40" required />

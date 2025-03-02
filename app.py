@@ -50,6 +50,7 @@ def show_collection(collection_id):
 @app.route("/like_collection", methods=["POST"])
 @helper.require_login
 def like_collection():
+    check_csrf() 
     collection_id = request.form["collection_id"]
     user_id = session["user_id"]
 
@@ -65,6 +66,7 @@ def like_collection():
 @app.route("/delete_like_collection", methods=["POST"])
 @helper.require_login
 def delete_like_collection():
+    check_csrf() 
     collection_id = request.form["collection_id"]
     user_id = session["user_id"]
 
@@ -106,6 +108,7 @@ def edit_collection(collection_id):
 @app.route("/add_tags", methods=["POST"])
 @helper.require_login
 def add_collection_tags():
+    check_csrf() 
     collection_id = request.form["collection_id"]
     
     if not music_collection.get_collection(collection_id):
@@ -141,6 +144,7 @@ def remove_tag(tag_id, collection_id):
         return render_template("remove_tag.html", tag_id=tag_id, collection_id=collection_id, tag_name=tag_name)
 
     if request.method == "POST":
+        check_csrf()
         if "continue" in request.form:
             music_collection.delete_collection_tag(tag_id, collection_id)
         return redirect("/collection/" + str(collection_id))
@@ -230,7 +234,7 @@ def remove_release(release_id):
         return render_template("remove.html", release=release)
 
     if request.method == "POST":
-        check_csrf() 
+        check_csrf()
         if "continue" in request.form:
             music_collection.remove_release(release["id"])
         return redirect("/collection/" + str(release["collection_id"]))
